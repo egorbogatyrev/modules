@@ -1,0 +1,4 @@
+name = Performance test
+description = Module provides some tests of Drupal code performance
+package = Development
+core = 7.x

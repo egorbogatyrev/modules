@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Install file for Meds Help module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function meds_help_install() {
+  // Create tmp directory.
+  file_directory_temp();
+}

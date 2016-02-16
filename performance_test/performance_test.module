@@ -1,0 +1,57 @@
+<?php
+/**
+ * @file
+ * This file includes core functions and hooks for MEDS Help module.
+ */
+
+/**
+ * Implements hook_page_alter().
+ */
+function meds_performance_render_html_tag ($n) {
+  timer_start('html_header');
+
+  $page['highlighted']['new_stuff'] = array(
+    '#type' => 'container',
+    '#attributes' => array('class' => 'my-container'),
+  );
+
+  $text = t('Heading');
+  for ($i = 0; $i < $n; $i++) {
+    $page['highlighted']['new_stuff'][$i] = array(
+      '#type' => 'html_tag',
+      '#tag'  => 'h2',
+      '#value' => $text,
+      '#attributes' => array('class' => 'my-heading'),
+    );
+  }
+
+  $render = drupal_render($page);
+
+  return (timer_read('html_header') / 1000);
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function meds_performance_render_markup ($n) {
+  timer_start('html_header');
+
+  $page['highlighted']['new_stuff'] = array(
+    '#type' => 'container',
+    '#attributes' => array('class' => 'my-container'),
+  );
+
+  $text = t('Heading');
+  for ($i = 0; $i < $n; $i++) {
+    $page['highlighted']['new_stuff'][$i] = array(
+      '#type' => '<h2 class="my-heading">' . $text .  '</h2>',
+      '#tag' => 'h2',
+      '#value' => t('Heading'),
+      '#attributes' => array('id' => 'my-heading'),
+    );
+  }
+
+  $render = drupal_render($page);
+
+  return (timer_read('html_header') / 1000);
+}
