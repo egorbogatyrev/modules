@@ -5,6 +5,87 @@
  */
 
 /**
+ * Implements hook_menu().
+ */
+function performance_test_menu() {
+  $categories = meds_reports_get_available_categories();
+  $default_category = $categories[0]['type_name'];
+
+  $items['admin/performance-center'] = array(
+    'title' => 'Performance tests',
+    'description' => 'Report Center',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('meds_reports_report_center_form', $default_category),
+    'access arguments' => array('meds reports center'),
+    'file' => 'meds_reports.pages.inc',
+  );
+
+  foreach ($categories as $key => $category) {
+    $category_name = $category['type_name'];
+    $items['admin/performance-center/' . $category_name] = array(
+      'title' => drupal_ucfirst($category_name),
+      'description' => 'MEDS Report Center',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('meds_reports_report_center_form', $category_name),
+      'access arguments' => array('meds reports center', 3),
+      'access callback'  => 'meds_reports_tab_access_callback',
+      'file' => 'meds_reports.pages.inc',
+      'type' => MENU_LOCAL_TASK,
+      'weight' => $key,
+    );
+  }
+
+  $items['admin/reports/report-center/' . $default_category]['type'] = MENU_DEFAULT_LOCAL_TASK;
+
+  return $items;
+}
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function performance_test_ctools_plugin_type() {
+  return array(
+    'ptest' => array(
+      'cache'   => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function performance_test_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/" . $plugin;
+  }
+  if ($module == 'performance_test' && !empty($plugin)) {
+    return "plugins/" . $plugin;
+  }
+}
+
+/**
+ * Return meds reports plugins configuration.
+ */
+function performance_test_get_test_plugins($id = NULL) {
+  ctools_include('plugins');
+  return ctools_get_plugins('performance_test', 'ptest', $id);
+}
+
+/**
+ * Provides a set of available reports categories.
+ */
+function performance_test_get_available_categories() {
+  $context = array('context' => MEDS_REPORTS_TRANSLATE_CONTEXT);
+
+  return array(
+    array(
+      'type_name' => 'theme',
+      'page_title' => t('Theming', array(), $context),
+    ),
+  );
+}
+
+/**
  * Implements hook_page_alter().
  */
 function meds_performance_render_html_tag ($n) {
