@@ -11,21 +11,6 @@
 interface PerformanceTestInterface {
 
   /**
-   * The report machine name.
-   */
-  public static function testMachineName();
-
-  /**
-   * Returns a permission for the report.
-   */
-  public function testPermission();
-
-  /**
-   * The report description.
-   */
-  public function testDescription();
-
-  /**
    * The callback function with used to export results to a file.
    */
   public function exportResults();
