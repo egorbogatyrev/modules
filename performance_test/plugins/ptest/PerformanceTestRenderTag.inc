@@ -9,7 +9,7 @@ $plugin = array(
   'name' => 'Theme',
   'description' => 'Provides the test to compare render performance.',
   'handler' => array(
-    'class' => 'PerformanceTestRender',
+    'class' => 'PerformanceTestRenderTag',
   ),
 );
 
@@ -23,7 +23,7 @@ class PerformanceTestRenderTag implements PerformanceTestInterface {
   /**
    * The amount of iterations for the test.
    */
-  public $limit = 50;
+  public $iterations = 1000;
 
   /**
    * Constructor for the report plugin class.
@@ -109,7 +109,7 @@ class PerformanceTestRenderTag implements PerformanceTestInterface {
 
     drupal_render($page);
 
-    return (timer_read('2') / 1000);
+    return $variant;
   }
 
   /**
