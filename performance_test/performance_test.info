@@ -3,6 +3,8 @@ description = Module provides some tests of Drupal code performance
 package = Development
 core = 7.x
 
+dependencies[] = chart
+
 files[] = includes/PerformanceTestInterface.inc
 files[] = includes/PerformanceTestManager.inc
 
