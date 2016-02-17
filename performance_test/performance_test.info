@@ -3,6 +3,7 @@ description = Module provides some tests of Drupal code performance
 package = Development
 core = 7.x
 
+dependencies[] = ctools
 dependencies[] = chart
 
 files[] = includes/PerformanceTestInterface.inc
