@@ -8,7 +8,7 @@
 define('PERFORMANCE_TEST_TRANSLATE_CONTEXT', 'performance_test');
 
 // Define the amount of iterations.
-define('PERFORMANCE_TEST_ITERATIONS', 100);
+define('PERFORMANCE_TEST_ITERATIONS', 10000);
 
 // Define the chart size.
 define('PERFORMANCE_TEST_CHART_SIZE_WIDTH', 600);

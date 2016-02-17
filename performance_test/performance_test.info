@@ -5,6 +5,7 @@ core = 7.x
 
 dependencies[] = ctools
 dependencies[] = chart
+dependencies[] = charts
 
 files[] = includes/PerformanceTestInterface.inc
 files[] = includes/PerformanceTestManager.inc

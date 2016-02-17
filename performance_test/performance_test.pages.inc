@@ -112,3 +112,34 @@ function performance_test_render_plugin_results($output, $callback) {
 
   return theme('chart', array('chart' => $chart));
 }
+
+/**
+ * Render results of code execution.
+ */
+function performance_test_render_plugin_results_charts($output, $callback) {
+
+  $chart = array(
+    '#type' => 'chart',
+    '#title' => t('Pie simple'),
+    '#chart_type' => 'pie',
+    '#chart_library' => 'highcharts',
+    '#legend_position' => 'right',
+    '#data_labels' => TRUE,
+    '#tooltips' => FALSE,
+  );
+  $chart['pie_data'] = array(
+    '#type' => 'chart_data',
+    '#title' => t('Gender'),
+   // '#labels' => array('Male', 'Female'),
+   // '#data' => array(10, 20),
+  );
+
+  $suffix = ' ' . t('Sec', array(), performance_test_get_context());
+  foreach ($output as $data) {
+    $chart['pie_data']['#data'][] = round($data['time'], 2);
+    $chart['pie_data']['#labels'][] = $data['title'] . ' ' . round($data['time'], 2) . $suffix;
+  }
+
+  $example[] = $chart;
+  return drupal_render($example);
+}
