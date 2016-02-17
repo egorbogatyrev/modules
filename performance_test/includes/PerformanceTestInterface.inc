@@ -28,10 +28,10 @@ interface PerformanceTestInterface {
   /**
    * The callback function with used to export results to a file.
    */
-  public function exportCallback();
+  public function exportResults();
 
   /**
    * Each of test can specify a category where it will be appeared.
    */
-  public function reportCategory();
+  public function testCategory();
 }

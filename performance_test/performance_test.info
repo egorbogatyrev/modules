@@ -7,4 +7,4 @@ files[] = includes/PerformanceTestInterface.inc
 files[] = includes/PerformanceTestManager.inc
 
 ; Test plugins
-files[] = plugins/ptest/MedsReportsNewUser.inc
+files[] = plugins/ptest/PerformanceTestRenderTag.inc

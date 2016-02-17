@@ -4,11 +4,17 @@
  * This file includes core functions and hooks for MEDS Help module.
  */
 
+// Define the field name which used as an indicator for the profile changes.
+define('PERFORMANCE_TEST_TRANSLATE_CONTEXT', 'performance_test');
+
+// Define the amount of iterations.
+define('PERFORMANCE_TEST_ITERATIONS', 100);
+
 /**
  * Implements hook_menu().
  */
 function performance_test_menu() {
-  $categories = meds_reports_get_available_categories();
+  $categories = performance_test_get_available_categories();
   $default_category = $categories[0]['type_name'];
 
   $items['admin/performance-center'] = array(
@@ -24,11 +30,10 @@ function performance_test_menu() {
     $category_name = $category['type_name'];
     $items['admin/performance-center/' . $category_name] = array(
       'title' => drupal_ucfirst($category_name),
-      'description' => 'MEDS Report Center',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('meds_reports_report_center_form', $category_name),
-      'access arguments' => array('meds reports center', 3),
-      'access callback'  => 'meds_reports_tab_access_callback',
+      'description' => 'Performance Test Center',
+      'page callback' => 'performance_test_page_callback',
+      'page arguments' => array($category_name),
+      'access arguments' => array('performance test center'),
       'file' => 'meds_reports.pages.inc',
       'type' => MENU_LOCAL_TASK,
       'weight' => $key,
@@ -75,64 +80,51 @@ function performance_test_get_test_plugins($id = NULL) {
  * Provides a set of available reports categories.
  */
 function performance_test_get_available_categories() {
-  $context = array('context' => MEDS_REPORTS_TRANSLATE_CONTEXT);
+  $context = performance_test_get_context();
 
   return array(
     array(
-      'type_name' => 'theme',
-      'page_title' => t('Theming', array(), $context),
+      'type_name'  => 'theme',
+      'page_title' => t('Theme engine Performance', array(), $context),
     ),
   );
 }
 
 /**
- * Implements hook_page_alter().
+ * Return default array for any variant.
  */
-function meds_performance_render_html_tag ($n) {
-  timer_start('html_header');
-
-  $page['highlighted']['new_stuff'] = array(
-    '#type' => 'container',
-    '#attributes' => array('class' => 'my-container'),
-  );
-
-  $text = t('Heading');
-  for ($i = 0; $i < $n; $i++) {
-    $page['highlighted']['new_stuff'][$i] = array(
-      '#type' => 'html_tag',
-      '#tag'  => 'h2',
-      '#value' => $text,
-      '#attributes' => array('class' => 'my-heading'),
-    );
-  }
-
-  $render = drupal_render($page);
-
-  return (timer_read('html_header') / 1000);
+function performance_test_get_context() {
+  return array('context' => PERFORMANCE_TEST_TRANSLATE_CONTEXT);
 }
 
 /**
- * Implements hook_page_alter().
+ * Return default array for any variant.
  */
-function meds_performance_render_markup ($n) {
-  timer_start('html_header');
+function performance_test_get_default_variant_array($tile, $description) {
+  $context = performance_test_get_context();
 
-  $page['highlighted']['new_stuff'] = array(
-    '#type' => 'container',
-    '#attributes' => array('class' => 'my-container'),
+  $default_title = t('Variant Title', array(), $context);
+  $default_desc  = t('Variant Description', array(), $context);
+
+  return array(
+    'title' => (!empty($tile)) ? $tile : $default_title,
+    'description' => (!empty($description)) ? $description : $default_desc,
+    'time' => '',
   );
+}
 
-  $text = t('Heading');
-  for ($i = 0; $i < $n; $i++) {
-    $page['highlighted']['new_stuff'][$i] = array(
-      '#type' => '<h2 class="my-heading">' . $text .  '</h2>',
-      '#tag' => 'h2',
-      '#value' => t('Heading'),
-      '#attributes' => array('id' => 'my-heading'),
-    );
-  }
+/**
+ * Return default array for any variant.
+ */
+function performance_test_start_timer_for_variant($id) {
+  timer_read($id);
+}
 
-  $render = drupal_render($page);
 
-  return (timer_read('html_header') / 1000);
+/**
+ * Return default array for any variant.
+ */
+function performance_test_read_timer_for_variant(& $variant, $id) {
+  $suffix = ' ' . t('Sec', array(), performance_test_get_context());
+  $variant['time'] = (timer_read($id) / 1000) . $suffix;
 }
