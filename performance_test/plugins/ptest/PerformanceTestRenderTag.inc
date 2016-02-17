@@ -6,7 +6,7 @@
  */
 
 $plugin = array(
-  'name' => 'Theme',
+  'name' => 'Render with tag type',
   'description' => 'Provides the test to compare render performance.',
   'handler' => array(
     'class' => 'PerformanceTestRenderTag',
@@ -23,7 +23,7 @@ class PerformanceTestRenderTag implements PerformanceTestInterface {
   /**
    * The amount of iterations for the test.
    */
-  public $iterations = 1000;
+  public $iterations = 10000;
 
   /**
    * Constructor for the report plugin class.

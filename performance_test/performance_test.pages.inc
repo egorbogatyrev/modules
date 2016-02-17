@@ -9,6 +9,7 @@
  */
 function performance_test_page_callback($form, $form_state, $current_category) {
   $context = array('context' => PERFORMANCE_TEST_TRANSLATE_CONTEXT);
+  $output = '';
 
   drupal_set_title(t('Drupal Performance center', array(), $context));
 
@@ -42,8 +43,8 @@ function performance_test_page_callback($form, $form_state, $current_category) {
         $form[$class] = array(
           '#type' => 'fieldset',
           '#title' => $t($test['name'], array(), $context),
-          '#collapsible' => FALSE,
-          '#collapsed' => FALSE,
+          '#collapsible' => TRUE,
+          '#collapsed'   => FALSE,
         );
       }
 
@@ -61,14 +62,53 @@ function performance_test_page_callback($form, $form_state, $current_category) {
         }
       }
 
-      performance_test_render_plugin_results($output);
+      $output = performance_test_render_plugin_results($output, $test['name']);
+      if (!empty($output)) {
+        $form[$class]['data'] = array(
+          '#markup' => $output,
+        );
+      }
     }
   }
+
+  return $form;
 }
 
 /**
  * Render results of code execution.
  */
-function performance_test_render_plugin_results($output) {
-  dpm($output);
+function performance_test_render_plugin_results($output, $callback) {
+
+/*  define('CHART_TYPE_LINE', 'lc');
+  define('CHART_TYPE_LINE_NO_AXIS', 'ls');
+  define('CHART_TYPE_LINE_XY', 'lxy');
+  define('CHART_TYPE_BAR_H', 'bhs');
+  define('CHART_TYPE_BAR_V', 'bvs');
+  define('CHART_TYPE_BAR_H_GROUPED', 'bhg');
+  define('CHART_TYPE_BAR_V_GROUPED', 'bvg');
+  define('CHART_TYPE_PIE', 'p');
+  define('CHART_TYPE_PIE_3D', 'p3');
+  define('CHART_TYPE_PIE_CONCENTRIC', 'pc');
+  define('CHART_TYPE_VENN', 'v');
+  define('CHART_TYPE_SCATTER', 's');
+  define('CHART_TYPE_MAP', 't');
+  define('CHART_TYPE_RADAR', 'r');
+  define('CHART_TYPE_RADAR_FILLED', 'rs');
+  define('CHART_TYPE_GMETER', 'gom');
+  define('CHART_TYPE_QR', 'qr');*/
+
+  $chart = array(
+    '#chart_id' => $callback,
+    '#title'    => chart_title($callback, 'cc0000', 15),
+    '#type'     => CHART_TYPE_PIE_3D,
+    '#size'     => chart_size(PERFORMANCE_TEST_CHART_SIZE_WIDTH, PERFORMANCE_TEST_CHART_SIZE_HEIGHT),
+  );
+
+  $suffix = ' ' . t('Sec', array(), performance_test_get_context());
+  foreach ($output as $data) {
+    $chart['#data'][] = $data['time'];
+    $chart['#labels'][] = $data['title'] . ' ' . round($data['time'], 2) . $suffix;
+  }
+
+  return theme('chart', array('chart' => $chart));
 }

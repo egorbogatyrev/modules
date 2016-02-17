@@ -10,6 +10,10 @@ define('PERFORMANCE_TEST_TRANSLATE_CONTEXT', 'performance_test');
 // Define the amount of iterations.
 define('PERFORMANCE_TEST_ITERATIONS', 100);
 
+// Define the chart size.
+define('PERFORMANCE_TEST_CHART_SIZE_WIDTH', 600);
+define('PERFORMANCE_TEST_CHART_SIZE_HEIGHT', 250);
+
 /**
  * Implements hook_menu().
  */
@@ -129,6 +133,6 @@ function performance_test_start_timer_for_variant($id) {
  * Return default array for any variant.
  */
 function performance_test_read_timer_for_variant(& $variant, $id) {
-  $suffix = ' ' . t('Sec', array(), performance_test_get_context());
+  $suffix = '';
   $variant['time'] = (timer_read($id) / 1000) . $suffix;
 }
