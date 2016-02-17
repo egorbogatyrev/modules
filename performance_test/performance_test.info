@@ -10,3 +10,4 @@ files[] = includes/PerformanceTestManager.inc
 
 ; Test plugins
 files[] = plugins/ptest/PerformanceTestRenderTag.inc
+files[] = plugins/ptest/PerformanceTestRenderCache.inc
