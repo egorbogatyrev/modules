@@ -8,7 +8,7 @@
  * Performance center page callback.
  */
 function performance_test_page_callback($form, $form_state, $current_category) {
-  $context = array('context' => PERFORMANCE_TEST_TRANSLATE_CONTEXT);
+  $context = performance_test_get_context();
   $output = '';
 
   drupal_set_title(t('Drupal Performance center', array(), $context));

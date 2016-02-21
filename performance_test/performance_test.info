@@ -3,6 +3,8 @@ description = Module provides some tests of Drupal code performance
 package = Development
 core = 7.x
 
+configure = admin/performance-center
+
 dependencies[] = ctools
 dependencies[] = chart
 dependencies[] = charts
@@ -13,3 +15,4 @@ files[] = includes/PerformanceTestManager.inc
 ; Test plugins
 files[] = plugins/ptest/PerformanceTestRenderTag.inc
 files[] = plugins/ptest/PerformanceTestRenderCache.inc
+files[] = plugins/ptest/PerformanceTestCustomAccessCallback.inc

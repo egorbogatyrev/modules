@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * This file includes core functions and hooks for MEDS Help module.
+ * This file includes core functions and hooks for Performance Test module.
  */
 
 // Define the field name which used as an indicator for the profile changes.
@@ -55,7 +55,7 @@ function performance_test_menu() {
 function performance_test_ctools_plugin_type() {
   return array(
     'ptest' => array(
-      'cache'   => TRUE,
+      'cache' => TRUE,
     ),
   );
 }
@@ -73,7 +73,7 @@ function performance_test_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Return meds reports plugins configuration.
+ * Returns meds reports plugins configuration.
  */
 function performance_test_get_test_plugins($id = NULL) {
   ctools_include('plugins');
@@ -94,6 +94,10 @@ function performance_test_get_available_categories() {
     array(
       'type_name'  => 'form',
       'page_title' => t('Form engine Performance', array(), $context),
+    ),
+    array(
+      'type_name'  => 'access',
+      'page_title' => t('Access callbacks Performance', array(), $context),
     ),
   );
 }
@@ -127,7 +131,6 @@ function performance_test_get_default_variant_array($tile, $description) {
 function performance_test_start_timer_for_variant($id) {
   timer_start($id);
 }
-
 
 /**
  * Return default array for any variant.
